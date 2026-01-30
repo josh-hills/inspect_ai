@@ -1,0 +1,1916 @@
+[
+  {
+    "id": "activities_garage_sale_001",
+    "category": "activities",
+    "subcategory": "garage_sales",
+    "difficulty": "easy",
+    "input": {
+      "type": "resident_request",
+      "from": "A resident at Unit 17",
+      "message": "I'd like to have a garage sale this Saturday. Do I need to do anything first?"
+    },
+    "facts": {
+      "activity_type": "garage_sale",
+      "duration_days": 1,
+      "previous_sales_this_year": 0
+    },
+    "applicable_rules": ["garage_sales_limit"],
+    "ground_truth": {
+      "decision": "approve",
+      "reasoning": "Section 3.7(r) allows garage sales for up to 2 days per year with prior Board approval. This would be their first sale and only 1 day, so it's within limits pending approval.",
+      "correct_response_elements": [
+        "Must mention prior Board approval is required",
+        "May mention the 2-day annual limit",
+        "Should note no exterior advertising signs are allowed"
+      ]
+    },
+    "tags": ["process_rule", "activities", "clear_approval"]
+  },
+  {
+    "id": "activities_garage_sale_002",
+    "category": "activities",
+    "subcategory": "garage_sales",
+    "difficulty": "easy",
+    "input": {
+      "type": "violation_report",
+      "from": "Property inspection",
+      "message": "Unit 42 has a large sign on their front lawn advertising 'GARAGE SALE TODAY' with arrows pointing to their driveway."
+    },
+    "facts": {
+      "sign_present": true,
+      "sign_type": "advertising",
+      "sign_location": "front_lawn"
+    },
+    "applicable_rules": ["garage_sales_limit"],
+    "ground_truth": {
+      "decision": "violation",
+      "reasoning": "Section 3.7(r) explicitly prohibits exterior signs advertising garage or yard sales. The sign must be removed.",
+      "correct_response_elements": [
+        "Must identify the sign as a violation",
+        "Should cite the prohibition on exterior advertising",
+        "Should request removal of the sign"
+      ]
+    },
+    "tags": ["clear_violation", "prohibition_rule", "activities"]
+  },
+  {
+    "id": "activities_home_business_001",
+    "category": "activities",
+    "subcategory": "home_business",
+    "difficulty": "medium",
+    "input": {
+      "type": "resident_request",
+      "from": "A resident at Unit 23",
+      "message": "I work from home as a freelance graphic designer. I use my spare bedroom as an office and occasionally ship packages to clients. Is this allowed?"
+    },
+    "facts": {
+      "business_type": "freelance_graphic_design",
+      "employees_at_unit": 0,
+      "customer_visits": false,
+      "signage": false,
+      "inventory_storage": false,
+      "work_location": "spare_bedroom"
+    },
+    "applicable_rules": ["home_business_restrictions"],
+    "ground_truth": {
+      "decision": "approve",
+      "reasoning": "Section 3.3 allows home businesses that comply with zoning and don't change the residential use, have no employees reporting to work, no signage, no in-person customer visits, and no large inventory storage. A freelance designer shipping packages meets all these criteria.",
+      "correct_response_elements": [
+        "Should confirm this type of home business is allowed",
+        "May mention the restrictions that must be followed",
+        "Should not require any approval process"
+      ]
+    },
+    "tags": ["clear_approval", "multiple_rules", "activities"]
+  },
+  {
+    "id": "activities_home_business_002",
+    "category": "activities",
+    "subcategory": "home_business",
+    "difficulty": "medium",
+    "input": {
+      "type": "neighbor_complaint",
+      "from": "A resident at Unit 8",
+      "message": "My neighbor at Unit 9 appears to be running a hair salon from their garage. I see customers pulling up several times a day, and there's a small 'Styles by Sarah' sign in their window."
+    },
+    "facts": {
+      "business_type": "hair_salon",
+      "customer_visits": "frequent",
+      "signage": true,
+      "location": "garage"
+    },
+    "applicable_rules": ["home_business_restrictions"],
+    "ground_truth": {
+      "decision": "violation",
+      "reasoning": "Section 3.3 prohibits home businesses that have frequent in-person customer visits or display exterior signs. A hair salon with multiple daily customers and signage violates both of these restrictions.",
+      "correct_response_elements": [
+        "Must identify violations: customer visits and signage",
+        "Should cite Section 3.3 restrictions",
+        "Should indicate the business as currently operated is not permitted"
+      ]
+    },
+    "tags": ["multiple_violations", "neighbor_complaint", "activities"]
+  },
+  {
+    "id": "activities_refuse_001",
+    "category": "activities",
+    "subcategory": "refuse_timing",
+    "difficulty": "easy",
+    "input": {
+      "type": "violation_report",
+      "from": "Property inspection",
+      "message": "Unit 55 has trash bins at the curb. Collection day is Friday, and it's currently Wednesday afternoon."
+    },
+    "facts": {
+      "current_day": "Wednesday",
+      "collection_day": "Friday",
+      "hours_before_pickup": 48
+    },
+    "applicable_rules": ["refuse_timing"],
+    "ground_truth": {
+      "decision": "violation",
+      "reasoning": "Section 3.6 states refuse may not be placed in street view more than 24 hours before pickup. With pickup on Friday and bins out on Wednesday, this exceeds the 24-hour limit.",
+      "correct_response_elements": [
+        "Must cite the 24-hour rule",
+        "Must indicate this is a violation",
+        "Should request bins be brought in until closer to pickup"
+      ]
+    },
+    "tags": ["clear_violation", "threshold_rule", "activities"]
+  },
+  {
+    "id": "architectural_approval_001",
+    "category": "architectural",
+    "subcategory": "exterior_modification",
+    "difficulty": "easy",
+    "input": {
+      "type": "resident_request",
+      "from": "A resident at Unit 12",
+      "message": "We want to repaint our front door from the current beige to a nice dark blue. Do we need to submit anything?"
+    },
+    "facts": {
+      "modification_type": "exterior_paint",
+      "location": "front_door",
+      "color_change": true
+    },
+    "applicable_rules": ["exterior_modification_approval", "architectural_approval_scope"],
+    "ground_truth": {
+      "decision": "refer_to_committee",
+      "reasoning": "Section 8.3 requires Architectural Committee approval to 'recolor' any part of the exterior. Painting a front door a different color requires prior written approval.",
+      "correct_response_elements": [
+        "Must state approval is required",
+        "Should mention submitting to Architectural Committee",
+        "May mention the color change triggers review"
+      ]
+    },
+    "tags": ["process_rule", "architectural", "clear_approval"]
+  },
+  {
+    "id": "architectural_approval_002",
+    "category": "architectural",
+    "subcategory": "approval_timeline",
+    "difficulty": "medium",
+    "input": {
+      "type": "resident_request",
+      "from": "A resident at Unit 38",
+      "message": "I submitted plans for a new fence 65 days ago and haven't heard back. Can I just go ahead and build it?"
+    },
+    "facts": {
+      "submission_date": "65_days_ago",
+      "response_received": false,
+      "modification_type": "fence"
+    },
+    "applicable_rules": ["architectural_approval_timeline"],
+    "ground_truth": {
+      "decision": "approve",
+      "reasoning": "Section 8.4(a)(iii) states that applications not acted upon within 60 days are deemed approved. Since 65 days have passed without a response, the fence plans are automatically approved.",
+      "correct_response_elements": [
+        "Must confirm the automatic approval after 60 days",
+        "Should cite Section 8.4(a)(iii)",
+        "May advise keeping documentation of submission date"
+      ]
+    },
+    "tags": ["threshold_rule", "architectural", "automatic_approval"]
+  },
+  {
+    "id": "architectural_completion_001",
+    "category": "architectural",
+    "subcategory": "completion_deadline",
+    "difficulty": "medium",
+    "input": {
+      "type": "violation_report",
+      "from": "Property inspection",
+      "message": "Unit 19 received approval for a patio cover 14 months ago. The project appears to be only partially complete with exposed framing still visible."
+    },
+    "facts": {
+      "approval_date": "14_months_ago",
+      "project_status": "partially_complete",
+      "extension_requested": false
+    },
+    "applicable_rules": ["architectural_completion_deadline"],
+    "ground_truth": {
+      "decision": "violation",
+      "reasoning": "Section 8.5(a) requires approved work to be completed within 1 year. At 14 months with no extension request, the project has exceeded the deadline.",
+      "correct_response_elements": [
+        "Must cite the 1-year completion requirement",
+        "Should indicate the deadline has passed",
+        "May mention that extensions can be requested"
+      ]
+    },
+    "tags": ["threshold_rule", "architectural", "clear_violation"]
+  },
+  {
+    "id": "architectural_appeal_001",
+    "category": "architectural",
+    "subcategory": "disapproval_appeal",
+    "difficulty": "medium",
+    "input": {
+      "type": "resident_request",
+      "from": "A resident at Unit 44",
+      "message": "The Architectural Committee denied my request for a pergola 3 weeks ago. I think they made the wrong decision. What can I do?"
+    },
+    "facts": {
+      "decision": "denied",
+      "days_since_denial": 21,
+      "appeal_deadline_days": 30
+    },
+    "applicable_rules": ["architectural_disapproval_hearing"],
+    "ground_truth": {
+      "decision": "needs_more_info",
+      "reasoning": "Section 8.4(a)(v) allows applicants to request a hearing before the Board within 30 days of disapproval. At 21 days, they still have time to submit a written appeal request.",
+      "correct_response_elements": [
+        "Must explain the appeal process",
+        "Must mention the 30-day deadline to request a hearing",
+        "Should note they have approximately 9 days remaining"
+      ]
+    },
+    "tags": ["process_rule", "architectural", "appeal"]
+  },
+  {
+    "id": "architectural_retroactive_001",
+    "category": "architectural",
+    "subcategory": "approval_process",
+    "difficulty": "hard",
+    "input": {
+      "type": "resident_request",
+      "from": "A resident at Unit 33",
+      "message": "I had my house painted last month - same color scheme, just refreshed. A neighbor mentioned I might have needed approval first. Did I? And if so, what happens now?"
+    },
+    "facts": {
+      "modification_type": "exterior_paint",
+      "color_change": false,
+      "approval_obtained": false,
+      "work_completed": true
+    },
+    "applicable_rules": ["exterior_modification_approval", "architectural_approval_scope"],
+    "ground_truth": {
+      "decision": "needs_more_info",
+      "reasoning": "Section 8.3 requires approval to 'recolor' or 'refinish' exterior improvements. Repainting with the same color could be interpreted as either maintenance not requiring approval, or 'refinishing' requiring approval. The HOA should clarify whether same-color repainting requires approval and may need to request retroactive submission.",
+      "correct_response_elements": [
+        "Should acknowledge the ambiguity",
+        "Should NOT definitively say 'you violated the rules' without clarification",
+        "May offer path forward (retroactive application)",
+        "Should NOT invent rules about same-color painting"
+      ]
+    },
+    "tags": ["ambiguous", "architectural", "retroactive", "judgment_required"]
+  },
+  {
+    "id": "landscaping_maintenance_001",
+    "category": "landscaping",
+    "subcategory": "property_maintenance",
+    "difficulty": "hard",
+    "input": {
+      "type": "violation_report",
+      "from": "Property inspection",
+      "message": "Unit 7 front yard shows signs of poor maintenance: grass appears to be approximately 6-8 inches tall, several brown patches, and weeds visible in flower beds."
+    },
+    "facts": {
+      "grass_height_inches": "6-8",
+      "brown_patches": true,
+      "weeds_visible": true,
+      "overall_condition": "declining"
+    },
+    "applicable_rules": ["property_maintenance_standard", "owner_landscaping_maintenance"],
+    "ground_truth": {
+      "decision": "violation",
+      "reasoning": "Section 5.4(a)(iii) gives the Board discretion to determine if a lot has become a nuisance due to 'improper weed or vegetation control.' The combination of tall grass, dead patches, and visible weeds likely meets this subjective standard, though the Board has discretion.",
+      "correct_response_elements": [
+        "Should acknowledge this is a judgment call",
+        "Should reference the maintenance standard",
+        "Should either issue a warning/violation OR request more information",
+        "Should NOT invent a specific grass height limit that doesn't exist"
+      ]
+    },
+    "tags": ["subjective_rule", "landscaping", "judgment_required"]
+  },
+  {
+    "id": "landscaping_maintenance_002",
+    "category": "landscaping",
+    "subcategory": "property_maintenance",
+    "difficulty": "hard",
+    "input": {
+      "type": "neighbor_complaint",
+      "from": "A resident at Unit 14",
+      "message": "My neighbor at Unit 15 has what I consider an eyesore of a yard - they've let their lawn go completely natural with native plants and wildflowers instead of traditional grass. Is this a violation?"
+    },
+    "facts": {
+      "landscaping_type": "native_plants_and_wildflowers",
+      "intentional_design": true,
+      "weeds_present": "unknown",
+      "maintenance_level": "deliberate_natural"
+    },
+    "applicable_rules": ["property_maintenance_standard", "owner_landscaping_maintenance"],
+    "ground_truth": {
+      "decision": "needs_more_info",
+      "reasoning": "The maintenance standard under Section 5.4(a)(iii) focuses on nuisance conditions like trash, junk, or improper weed control - not aesthetic preferences. A deliberately maintained native garden may not constitute a violation even if a neighbor dislikes the style. More information needed about actual condition vs. design choice.",
+      "correct_response_elements": [
+        "Should NOT automatically side with complainant's aesthetic preference",
+        "Should distinguish between 'neglect' and 'different landscaping style'",
+        "May need inspection to determine if actual maintenance issues exist",
+        "Should not invent rules about what landscaping styles are required"
+      ]
+    },
+    "tags": ["subjective_rule", "landscaping", "neighbor_complaint", "judgment_required"]
+  },
+  {
+    "id": "landscaping_tree_001",
+    "category": "landscaping",
+    "subcategory": "tree_removal",
+    "difficulty": "easy",
+    "input": {
+      "type": "resident_request",
+      "from": "A resident at Unit 28",
+      "message": "There's a large oak tree in my front yard that's blocking my solar panels. Can I have it removed?"
+    },
+    "facts": {
+      "tree_location": "front_yard",
+      "tree_status": "living",
+      "reason": "blocking_solar_panels"
+    },
+    "applicable_rules": ["tree_removal_prohibition"],
+    "ground_truth": {
+      "decision": "refer_to_committee",
+      "reasoning": "Section 3.7(z) prohibits removing living trees from the front of any Lot without prior written consent from the Architectural Committee. The resident must apply for approval before removing the tree.",
+      "correct_response_elements": [
+        "Must state approval is required",
+        "Should cite Section 3.7(z)",
+        "May acknowledge the solar panel concern but still require approval process"
+      ]
+    },
+    "tags": ["prohibition_rule", "landscaping", "process_rule"]
+  },
+  {
+    "id": "landscaping_tree_002",
+    "category": "landscaping",
+    "subcategory": "tree_removal",
+    "difficulty": "medium",
+    "input": {
+      "type": "resident_request",
+      "from": "A resident at Unit 51",
+      "message": "A tree in my backyard died over the winter. I want to remove it and plant a new one. Do I need approval?"
+    },
+    "facts": {
+      "tree_location": "backyard",
+      "tree_status": "dead",
+      "plan": "remove_and_replace"
+    },
+    "applicable_rules": ["tree_removal_prohibition"],
+    "ground_truth": {
+      "decision": "approve",
+      "reasoning": "Section 3.7(z) only prohibits removing 'living' trees from the 'front' of a lot. A dead tree in the backyard does not require Architectural Committee approval to remove.",
+      "correct_response_elements": [
+        "Should confirm no approval needed",
+        "Should explain why: tree is dead AND in backyard",
+        "May mention front yard living trees would require approval"
+      ]
+    },
+    "tags": ["exception_applies", "landscaping", "clear_approval"]
+  },
+  {
+    "id": "noise_decibel_001",
+    "category": "noise",
+    "subcategory": "decibel_limit",
+    "difficulty": "easy",
+    "input": {
+      "type": "neighbor_complaint",
+      "from": "A resident at Unit 20",
+      "message": "My neighbor at Unit 21 plays loud music on their patio every weekend evening. It's extremely disruptive and I can hear it clearly inside my house."
+    },
+    "facts": {
+      "noise_source": "music",
+      "frequency": "weekly",
+      "location": "patio",
+      "decibel_measurement": "not_taken"
+    },
+    "applicable_rules": ["noise_decibel_limit", "noise_measurement_method"],
+    "ground_truth": {
+      "decision": "needs_more_info",
+      "reasoning": "Section 3.7(p) sets a 45-decibel limit measured at the property boundary. To confirm a violation, the HOA would need a qualified technician to take 3-5 decibel readings per Section 3.7(p). The complaint warrants investigation but cannot be confirmed as a violation without measurement.",
+      "correct_response_elements": [
+        "Should acknowledge the complaint",
+        "Should explain the 45-decibel limit",
+        "Should explain that measurement is needed to confirm violation",
+        "Should NOT assume violation without measurement"
+      ]
+    },
+    "tags": ["threshold_rule", "noise", "neighbor_complaint", "needs_measurement"]
+  },
+  {
+    "id": "noise_decibel_002",
+    "category": "noise",
+    "subcategory": "decibel_limit",
+    "difficulty": "medium",
+    "input": {
+      "type": "violation_report",
+      "from": "HOA noise assessment",
+      "message": "Noise measurement conducted at Unit 36 property boundary. Readings by certified technician: 52 dB, 48 dB, 51 dB, 49 dB. Source was a generator running on the property."
+    },
+    "facts": {
+      "readings_db": [52, 48, 51, 49],
+      "average_db": 50,
+      "measurement_count": 4,
+      "noise_source": "generator"
+    },
+    "applicable_rules": ["noise_decibel_limit", "noise_measurement_method"],
+    "ground_truth": {
+      "decision": "violation",
+      "reasoning": "Section 3.7(p) sets a 45-decibel limit. With 4 readings averaging 50 dB (within the required 3-5 readings), this exceeds the limit. Generator noise is not exempt from the rule.",
+      "correct_response_elements": [
+        "Must cite the 45 dB limit",
+        "Should note the average exceeds the limit",
+        "Should confirm proper measurement procedure was followed"
+      ]
+    },
+    "tags": ["clear_violation", "threshold_rule", "noise"]
+  },
+  {
+    "id": "noise_construction_001",
+    "category": "noise",
+    "subcategory": "construction_exception",
+    "difficulty": "medium",
+    "input": {
+      "type": "neighbor_complaint",
+      "from": "A resident at Unit 4",
+      "message": "Unit 5 is having construction done and the noise is unbearable - power saws, hammering, all day long. Can you make them stop?"
+    },
+    "facts": {
+      "noise_source": "construction_work",
+      "project_type": "home_improvement",
+      "noise_level": "high"
+    },
+    "applicable_rules": ["noise_decibel_limit"],
+    "ground_truth": {
+      "decision": "no_violation",
+      "reasoning": "Section 3.7(p) explicitly exempts construction work from the 45-decibel limit. While the noise may be disruptive, it is a permitted exception during actual construction activities.",
+      "correct_response_elements": [
+        "Must acknowledge the construction exception",
+        "Should explain that construction noise is exempt",
+        "May suggest communication with neighbor about schedule"
+      ]
+    },
+    "tags": ["exception_applies", "noise", "neighbor_complaint"]
+  },
+  {
+    "id": "occupancy_limit_001",
+    "category": "occupancy",
+    "subcategory": "occupancy_formula",
+    "difficulty": "easy",
+    "input": {
+      "type": "resident_request",
+      "from": "A resident at Unit 32",
+      "message": "We have a 3-bedroom unit. My wife and I want to move in my mother-in-law and our two adult children. That would be 5 people total. Is that allowed?"
+    },
+    "facts": {
+      "bedrooms": 3,
+      "proposed_occupants": 5,
+      "max_without_approval": 7
+    },
+    "applicable_rules": ["occupancy_limit"],
+    "ground_truth": {
+      "decision": "approve",
+      "reasoning": "Section 3.1 limits occupancy to (bedrooms × 2) + 1 without Board approval. For a 3-bedroom unit: (3 × 2) + 1 = 7 maximum. 5 occupants is well within this limit.",
+      "correct_response_elements": [
+        "Must confirm 5 people is allowed",
+        "Should explain the formula or limit",
+        "Should NOT require approval for this number"
+      ]
+    },
+    "tags": ["clear_approval", "threshold_rule", "occupancy"]
+  },
+  {
+    "id": "occupancy_limit_002",
+    "category": "occupancy",
+    "subcategory": "occupancy_formula",
+    "difficulty": "medium",
+    "input": {
+      "type": "resident_request",
+      "from": "A resident at Unit 47",
+      "message": "We have a 2-bedroom condo and are expecting twins. With me, my wife, our current toddler, and the twins, we'll have 5 people living here. Do we need any approval?"
+    },
+    "facts": {
+      "bedrooms": 2,
+      "current_occupants": 3,
+      "proposed_occupants": 5,
+      "max_without_approval": 5
+    },
+    "applicable_rules": ["occupancy_limit"],
+    "ground_truth": {
+      "decision": "approve",
+      "reasoning": "Section 3.1 limits occupancy to (bedrooms × 2) + 1. For a 2-bedroom unit: (2 × 2) + 1 = 5 maximum. 5 occupants is exactly at the limit and does not require Board approval.",
+      "correct_response_elements": [
+        "Must confirm 5 people is allowed without approval",
+        "Should explain they are at the maximum limit",
+        "May note that more would require Board approval"
+      ]
+    },
+    "tags": ["edge_case", "threshold_rule", "occupancy"]
+  },
+  {
+    "id": "occupancy_limit_003",
+    "category": "occupancy",
+    "subcategory": "occupancy_formula",
+    "difficulty": "easy",
+    "input": {
+      "type": "violation_report",
+      "from": "Property inspection",
+      "message": "Neighbor reports that Unit 11, a 1-bedroom unit, appears to have 5 adults living there based on the number of people regularly coming and going."
+    },
+    "facts": {
+      "bedrooms": 1,
+      "apparent_occupants": 5,
+      "max_without_approval": 3
+    },
+    "applicable_rules": ["occupancy_limit"],
+    "ground_truth": {
+      "decision": "needs_more_info",
+      "reasoning": "Section 3.1 limits a 1-bedroom to (1 × 2) + 1 = 3 occupants without approval. If 5 people are indeed living there, it exceeds the limit. However, people 'coming and going' could be visitors, not residents. Investigation needed to confirm actual occupancy.",
+      "correct_response_elements": [
+        "Should cite the 3-person limit for 1-bedroom",
+        "Should note investigation is needed",
+        "Should NOT assume violation based on observation of people coming and going"
+      ]
+    },
+    "tags": ["threshold_rule", "occupancy", "needs_investigation"]
+  },
+  {
+    "id": "pets_weight_001",
+    "category": "pets",
+    "subcategory": "weight_limit",
+    "difficulty": "easy",
+    "input": {
+      "type": "resident_request",
+      "from": "A resident at Unit 18",
+      "message": "Hi! We're looking at adopting a dog from the rescue. He's a lab mix, super sweet, about 50 pounds. Just wanted to make sure that's allowed."
+    },
+    "facts": {
+      "animal_type": "dog",
+      "weight_lbs": 50
+    },
+    "applicable_rules": ["pet_weight_limit"],
+    "ground_truth": {
+      "decision": "deny",
+      "reasoning": "Section 3.7(w) limits pets to 35 pounds. A 50-pound dog exceeds this limit by 15 pounds.",
+      "correct_response_elements": [
+        "Must state the 35-pound limit",
+        "Must clearly indicate the dog is not allowed",
+        "Should cite Section 3.7(w)"
+      ]
+    },
+    "tags": ["clear_violation", "threshold_rule", "pets"]
+  },
+  {
+    "id": "pets_weight_002",
+    "category": "pets",
+    "subcategory": "weight_limit",
+    "difficulty": "easy",
+    "input": {
+      "type": "resident_request",
+      "from": "A resident at Unit 25",
+      "message": "I'm thinking about getting a small dog - a Cavalier King Charles Spaniel. They usually weigh around 15-18 pounds. Would that be okay?"
+    },
+    "facts": {
+      "animal_type": "dog",
+      "breed": "cavalier_king_charles_spaniel",
+      "weight_lbs": 18
+    },
+    "applicable_rules": ["pet_weight_limit"],
+    "ground_truth": {
+      "decision": "approve",
+      "reasoning": "Section 3.7(w) allows pets up to 35 pounds. At 15-18 pounds, a Cavalier King Charles Spaniel is well within the limit.",
+      "correct_response_elements": [
+        "Must confirm the dog is allowed",
+        "May mention the 35-pound limit"
+      ]
+    },
+    "tags": ["clear_approval", "threshold_rule", "pets"]
+  },
+  {
+    "id": "pets_count_001",
+    "category": "pets",
+    "subcategory": "count_limit",
+    "difficulty": "easy",
+    "input": {
+      "type": "resident_request",
+      "from": "A resident at Unit 5",
+      "message": "We currently have one cat and are thinking about getting a second one. Is that allowed under the HOA rules?"
+    },
+    "facts": {
+      "current_cats": 1,
+      "proposed_cats": 2,
+      "total_cats": 2
+    },
+    "applicable_rules": ["pet_count_limit"],
+    "ground_truth": {
+      "decision": "approve",
+      "reasoning": "Section 3.7(w) allows up to 2 cats. Having 2 cats is within the limit.",
+      "correct_response_elements": [
+        "Must confirm 2 cats is allowed",
+        "May reference the limit"
+      ]
+    },
+    "tags": ["clear_approval", "count_rule", "pets"]
+  },
+  {
+    "id": "pets_count_002",
+    "category": "pets",
+    "subcategory": "count_limit",
+    "difficulty": "medium",
+    "input": {
+      "type": "resident_request",
+      "from": "A resident at Unit 37",
+      "message": "We have 2 dogs already and a friend needs to rehome their cat. Can we take in the cat too?"
+    },
+    "facts": {
+      "current_dogs": 2,
+      "proposed_cats": 1,
+      "total_pets": 3
+    },
+    "applicable_rules": ["pet_count_limit"],
+    "ground_truth": {
+      "decision": "deny",
+      "reasoning": "Section 3.7(w) provides specific combinations: up to 2 dogs, OR up to 2 cats, OR 1 dog and 1 cat. These are alternatives, not cumulative limits. Having 2 dogs AND a cat would exceed the allowed combinations.",
+      "correct_response_elements": [
+        "Must explain the pet combination limits",
+        "Must clarify these are alternatives, not additive",
+        "Must deny the request"
+      ]
+    },
+    "tags": ["multiple_rules", "count_rule", "pets", "clear_violation"]
+  },
+  {
+    "id": "pets_count_003",
+    "category": "pets",
+    "subcategory": "count_limit",
+    "difficulty": "easy",
+    "input": {
+      "type": "resident_request",
+      "from": "A resident at Unit 41",
+      "message": "We'd like to get a dog and also have a small fish tank in the living room. Is that okay?"
+    },
+    "facts": {
+      "proposed_dogs": 1,
+      "fish_aquarium": true
+    },
+    "applicable_rules": ["pet_count_limit"],
+    "ground_truth": {
+      "decision": "approve",
+      "reasoning": "Section 3.7(w) allows fish in aquariums in addition to the dog/cat options. One dog plus a fish tank is permitted.",
+      "correct_response_elements": [
+        "Must confirm both are allowed",
+        "May mention fish in aquariums are always permitted"
+      ]
+    },
+    "tags": ["clear_approval", "count_rule", "pets"]
+  },
+  {
+    "id": "pets_leash_001",
+    "category": "pets",
+    "subcategory": "leash_requirement",
+    "difficulty": "easy",
+    "input": {
+      "type": "violation_report",
+      "from": "Property inspection",
+      "message": "Observed a dog running freely in the community park area near Unit 30. No owner was immediately visible."
+    },
+    "facts": {
+      "dog_unleashed": true,
+      "location": "common_area_park"
+    },
+    "applicable_rules": ["pet_leash_requirement"],
+    "ground_truth": {
+      "decision": "violation",
+      "reasoning": "Section 3.7(w) prohibits unleashed dogs in the Common Area. A dog running freely in the community park is a violation.",
+      "correct_response_elements": [
+        "Must cite the leash requirement",
+        "Must identify this as a violation"
+      ]
+    },
+    "tags": ["clear_violation", "prohibition_rule", "pets"]
+  },
+  {
+    "id": "pets_barking_001",
+    "category": "pets",
+    "subcategory": "barking",
+    "difficulty": "medium",
+    "input": {
+      "type": "neighbor_complaint",
+      "from": "A resident at Unit 13",
+      "message": "The dog at Unit 14 barks constantly when the owners leave for work. It goes on for hours every day and it's driving me crazy."
+    },
+    "facts": {
+      "barking_frequency": "daily",
+      "barking_duration": "hours",
+      "trigger": "owner_absence"
+    },
+    "applicable_rules": ["pet_barking"],
+    "ground_truth": {
+      "decision": "violation",
+      "reasoning": "Section 3.7(w) requires owners to prevent dogs from 'continuously barking.' Hours of daily barking clearly constitutes continuous barking and is a violation.",
+      "correct_response_elements": [
+        "Must acknowledge continuous barking is prohibited",
+        "Should issue a warning or violation notice",
+        "May suggest solutions (training, daycare, etc.)"
+      ]
+    },
+    "tags": ["clear_violation", "requirement_rule", "pets", "neighbor_complaint"]
+  },
+  {
+    "id": "pets_commercial_001",
+    "category": "pets",
+    "subcategory": "commercial_breeding",
+    "difficulty": "easy",
+    "input": {
+      "type": "neighbor_complaint",
+      "from": "A resident at Unit 22",
+      "message": "I believe my neighbor at Unit 23 is breeding dogs. I've seen puppies there multiple times over the past year and they always seem to disappear after a few weeks. I think they're selling them."
+    },
+    "facts": {
+      "activity": "apparent_dog_breeding",
+      "puppies_observed": "multiple_litters",
+      "commercial_suspicion": true
+    },
+    "applicable_rules": ["pet_commercial_prohibition"],
+    "ground_truth": {
+      "decision": "needs_more_info",
+      "reasoning": "Section 3.7(w) prohibits keeping animals for commercial purposes. While the pattern suggests possible commercial breeding, investigation is needed to confirm whether puppies are being sold commercially vs. occasional litters placed with friends/family.",
+      "correct_response_elements": [
+        "Should cite the commercial prohibition",
+        "Should indicate investigation is warranted",
+        "Should NOT definitively declare violation without confirmation"
+      ]
+    },
+    "tags": ["prohibition_rule", "pets", "neighbor_complaint", "needs_investigation"]
+  },
+  {
+    "id": "pets_tethering_001",
+    "category": "pets",
+    "subcategory": "tethering",
+    "difficulty": "easy",
+    "input": {
+      "type": "violation_report",
+      "from": "Property inspection",
+      "message": "Unit 48 has a dog chained to a stake in their front yard."
+    },
+    "facts": {
+      "tethering_location": "front_yard",
+      "animal": "dog"
+    },
+    "applicable_rules": ["pet_tethering_prohibition"],
+    "ground_truth": {
+      "decision": "violation",
+      "reasoning": "Section 3.7(w) prohibits animals being left chained or tethered in front of a Lot. A dog chained in the front yard is a clear violation.",
+      "correct_response_elements": [
+        "Must cite the tethering prohibition",
+        "Must identify this as a violation",
+        "Should request removal/correction"
+      ]
+    },
+    "tags": ["clear_violation", "prohibition_rule", "pets"]
+  },
+  {
+    "id": "rental_duration_001",
+    "category": "rental",
+    "subcategory": "minimum_duration",
+    "difficulty": "easy",
+    "input": {
+      "type": "resident_request",
+      "from": "A resident at Unit 10",
+      "message": "I'll be traveling for work for 2 months and want to rent out my unit while I'm gone. Is that allowed?"
+    },
+    "facts": {
+      "rental_duration_days": 60,
+      "minimum_required_days": 90
+    },
+    "applicable_rules": ["rental_minimum_duration"],
+    "ground_truth": {
+      "decision": "deny",
+      "reasoning": "Section 3.2 requires a minimum lease duration of 90 consecutive days. A 2-month (approximately 60 days) rental is below this minimum.",
+      "correct_response_elements": [
+        "Must state the 90-day minimum",
+        "Must deny the request",
+        "Should cite Section 3.2"
+      ]
+    },
+    "tags": ["clear_violation", "threshold_rule", "rental"]
+  },
+  {
+    "id": "rental_duration_002",
+    "category": "rental",
+    "subcategory": "minimum_duration",
+    "difficulty": "easy",
+    "input": {
+      "type": "resident_request",
+      "from": "A resident at Unit 26",
+      "message": "I'm relocating for a job and want to rent my condo for a year. What do I need to do?"
+    },
+    "facts": {
+      "rental_duration_months": 12,
+      "rental_duration_days": 365
+    },
+    "applicable_rules": ["rental_minimum_duration", "rental_notification"],
+    "ground_truth": {
+      "decision": "approve",
+      "reasoning": "Section 3.2 requires minimum 90-day leases. A 1-year lease meets this requirement. The owner must also notify the Association in writing and provide a copy of the lease.",
+      "correct_response_elements": [
+        "Must confirm the rental duration is allowed",
+        "Must mention the notification requirement",
+        "Must mention providing a copy of the lease to the Association"
+      ]
+    },
+    "tags": ["clear_approval", "threshold_rule", "rental", "process_rule"]
+  },
+  {
+    "id": "rental_airbnb_001",
+    "category": "rental",
+    "subcategory": "transient_prohibition",
+    "difficulty": "easy",
+    "input": {
+      "type": "resident_request",
+      "from": "A resident at Unit 39",
+      "message": "I was thinking about listing my spare bedroom on Airbnb for short-term stays when I'm not using it. Just weekend guests here and there. Is that okay?"
+    },
+    "facts": {
+      "rental_type": "short_term_airbnb",
+      "duration": "weekend_stays"
+    },
+    "applicable_rules": ["rental_transient_prohibition", "rental_minimum_duration"],
+    "ground_truth": {
+      "decision": "deny",
+      "reasoning": "Section 3.1 prohibits renting for 'transient or hotel purposes.' Section 3.2 requires minimum 90-day leases. Weekend Airbnb rentals violate both provisions.",
+      "correct_response_elements": [
+        "Must cite the transient/hotel prohibition",
+        "Should mention the 90-day minimum requirement",
+        "Must clearly deny the request"
+      ]
+    },
+    "tags": ["clear_violation", "prohibition_rule", "rental"]
+  },
+  {
+    "id": "rental_notification_001",
+    "category": "rental",
+    "subcategory": "notification",
+    "difficulty": "medium",
+    "input": {
+      "type": "violation_report",
+      "from": "HOA office",
+      "message": "Unit 52 appears to have new occupants. The listed owner has not notified the Association of any rental and no lease has been provided."
+    },
+    "facts": {
+      "new_occupants": true,
+      "notification_provided": false,
+      "lease_copy_provided": false
+    },
+    "applicable_rules": ["rental_notification"],
+    "ground_truth": {
+      "decision": "violation",
+      "reasoning": "Section 3.2 requires owners to notify the Association in writing prior to occupancy by non-owners and provide a copy of the lease. Failing to notify and provide the lease is a violation.",
+      "correct_response_elements": [
+        "Must cite the notification requirement",
+        "Must cite the lease copy requirement",
+        "Should request the owner provide the required documentation"
+      ]
+    },
+    "tags": ["clear_violation", "process_rule", "rental"]
+  },
+  {
+    "id": "signs_for_sale_001",
+    "category": "signs",
+    "subcategory": "for_sale_size",
+    "difficulty": "easy",
+    "input": {
+      "type": "violation_report",
+      "from": "Property inspection",
+      "message": "Unit 16 has a 'For Sale' sign in the front yard measuring approximately 4 feet by 3 feet."
+    },
+    "facts": {
+      "sign_type": "for_sale",
+      "sign_area_sqft": 12,
+      "location": "front_yard"
+    },
+    "applicable_rules": ["sign_for_sale_rent"],
+    "ground_truth": {
+      "decision": "violation",
+      "reasoning": "Section 3.7(x)(v) limits for-sale signs to 3 square feet. A 4×3 foot (12 square foot) sign greatly exceeds this limit.",
+      "correct_response_elements": [
+        "Must cite the 3 square foot limit",
+        "Must identify this as a violation",
+        "Should request the sign be replaced with a compliant size"
+      ]
+    },
+    "tags": ["clear_violation", "threshold_rule", "signs"]
+  },
+  {
+    "id": "signs_for_sale_002",
+    "category": "signs",
+    "subcategory": "for_sale_size",
+    "difficulty": "easy",
+    "input": {
+      "type": "resident_request",
+      "from": "A resident at Unit 34",
+      "message": "I'm putting my unit up for sale. What are the rules about putting up a For Sale sign?"
+    },
+    "facts": {
+      "sign_type": "for_sale"
+    },
+    "applicable_rules": ["sign_for_sale_rent"],
+    "ground_truth": {
+      "decision": "approve",
+      "reasoning": "Section 3.7(x)(v) allows one for-sale sign in front of the unit, up to 3 square feet in size.",
+      "correct_response_elements": [
+        "Must confirm for-sale signs are allowed",
+        "Must specify the 3 square foot size limit",
+        "May mention only one sign is allowed in front"
+      ]
+    },
+    "tags": ["clarification", "threshold_rule", "signs"]
+  },
+  {
+    "id": "signs_political_001",
+    "category": "signs",
+    "subcategory": "political_signs",
+    "difficulty": "medium",
+    "input": {
+      "type": "resident_request",
+      "from": "A resident at Unit 27",
+      "message": "There's an election coming up and I want to put some yard signs supporting my preferred candidates. What are the rules?"
+    },
+    "facts": {
+      "sign_type": "political",
+      "election_upcoming": true
+    },
+    "applicable_rules": ["sign_political"],
+    "ground_truth": {
+      "decision": "approve",
+      "reasoning": "Section 3.7(x)(vi) allows political signs with a combined total area not exceeding 3 square feet. Signs must be removed within 24 hours after the election.",
+      "correct_response_elements": [
+        "Must confirm political signs are allowed",
+        "Must specify the 3 square foot total limit",
+        "Must mention the 24-hour removal requirement after election"
+      ]
+    },
+    "tags": ["threshold_rule", "signs", "process_rule"]
+  },
+  {
+    "id": "signs_political_002",
+    "category": "signs",
+    "subcategory": "political_signs",
+    "difficulty": "easy",
+    "input": {
+      "type": "violation_report",
+      "from": "Property inspection",
+      "message": "Unit 49 still has a campaign sign for a candidate from the election that took place 2 weeks ago."
+    },
+    "facts": {
+      "sign_type": "political",
+      "election_date": "2_weeks_ago",
+      "sign_still_present": true
+    },
+    "applicable_rules": ["sign_political"],
+    "ground_truth": {
+      "decision": "violation",
+      "reasoning": "Section 3.7(x)(vi) requires political signs to be removed within 24 hours after the election. A sign still present 2 weeks later is a clear violation.",
+      "correct_response_elements": [
+        "Must cite the 24-hour removal requirement",
+        "Must identify this as a violation",
+        "Should request immediate removal"
+      ]
+    },
+    "tags": ["clear_violation", "threshold_rule", "signs"]
+  },
+  {
+    "id": "structures_shed_001",
+    "category": "structures",
+    "subcategory": "backyard_structure",
+    "difficulty": "medium",
+    "input": {
+      "type": "resident_request",
+      "from": "A resident at Unit 29",
+      "message": "I'd like to build a storage shed in my backyard. It would be 10 feet tall with a small deck on top for stargazing. The deck would be about 3 feet off the ground. Do I need approval?"
+    },
+    "facts": {
+      "structure_type": "shed_with_deck",
+      "total_height_ft": 10,
+      "platform_height_inches": 36,
+      "location": "backyard"
+    },
+    "applicable_rules": ["freestanding_structure_total_height", "freestanding_structure_platform_height", "exterior_modification_approval"],
+    "ground_truth": {
+      "decision": "deny",
+      "reasoning": "This violates two rules: (1) The 10-foot height exceeds the 8-foot limit for backyard structures per Section 3.7(t). (2) The 36-inch platform exceeds the 24-inch limit for standing surfaces. Additionally, any such structure requires Architectural Committee approval.",
+      "correct_response_elements": [
+        "Must identify the height violation (10ft > 8ft limit)",
+        "Must identify the platform height violation (36in > 24in limit)",
+        "Must mention approval requirement",
+        "Should cite Section 3.7(t)"
+      ]
+    },
+    "tags": ["multiple_violations", "threshold_rule", "structures"]
+  },
+  {
+    "id": "structures_shed_002",
+    "category": "structures",
+    "subcategory": "backyard_structure",
+    "difficulty": "easy",
+    "input": {
+      "type": "resident_request",
+      "from": "A resident at Unit 6",
+      "message": "We want to put up a 7-foot tall garden shed in our backyard for storing tools. Do we need any approval?"
+    },
+    "facts": {
+      "structure_type": "garden_shed",
+      "height_ft": 7,
+      "platform": false,
+      "location": "backyard"
+    },
+    "applicable_rules": ["freestanding_structure_total_height", "exterior_modification_approval"],
+    "ground_truth": {
+      "decision": "refer_to_committee",
+      "reasoning": "While a 7-foot shed is under the 8-foot height limit from Section 3.7(t), any exterior modification or addition of accessory buildings requires Architectural Committee approval per Sections 3.8 and 8.3.",
+      "correct_response_elements": [
+        "Should confirm the height is within the limit",
+        "Must state that approval is still required",
+        "Should direct them to submit to Architectural Committee"
+      ]
+    },
+    "tags": ["process_rule", "structures", "within_limit_but_needs_approval"]
+  },
+  {
+    "id": "structures_platform_001",
+    "category": "structures",
+    "subcategory": "platform_height",
+    "difficulty": "easy",
+    "input": {
+      "type": "resident_request",
+      "from": "A resident at Unit 43",
+      "message": "We'd like to add a small raised deck in our backyard, about 20 inches off the ground. Is that okay without approval?"
+    },
+    "facts": {
+      "structure_type": "deck",
+      "platform_height_inches": 20,
+      "location": "backyard"
+    },
+    "applicable_rules": ["freestanding_structure_platform_height", "exterior_modification_approval"],
+    "ground_truth": {
+      "decision": "refer_to_committee",
+      "reasoning": "While 20 inches is under the 24-inch platform height limit from Section 3.7(t), any exterior modification requires Architectural Committee approval per Section 8.3. The deck requires approval regardless of height.",
+      "correct_response_elements": [
+        "May note the height is within limits",
+        "Must state that approval is required for exterior modifications"
+      ]
+    },
+    "tags": ["process_rule", "structures", "within_limit_but_needs_approval"]
+  },
+  {
+    "id": "structures_basketball_001",
+    "category": "structures",
+    "subcategory": "basketball_prohibition",
+    "difficulty": "easy",
+    "input": {
+      "type": "resident_request",
+      "from": "A resident at Unit 2",
+      "message": "Can we install a portable basketball hoop in our driveway for our kids?"
+    },
+    "facts": {
+      "structure_type": "basketball_hoop",
+      "portable": true,
+      "location": "driveway"
+    },
+    "applicable_rules": ["basketball_standards_prohibition"],
+    "ground_truth": {
+      "decision": "deny",
+      "reasoning": "Section 3.7(k) prohibits 'fixed or moveable basketball standards or sports apparatus.' Even portable basketball hoops are explicitly prohibited.",
+      "correct_response_elements": [
+        "Must cite the basketball prohibition",
+        "Must explain both fixed AND moveable hoops are banned",
+        "Must deny the request"
+      ]
+    },
+    "tags": ["clear_violation", "prohibition_rule", "structures"]
+  },
+  {
+    "id": "structures_lighting_001",
+    "category": "structures",
+    "subcategory": "exterior_lighting",
+    "difficulty": "medium",
+    "input": {
+      "type": "neighbor_complaint",
+      "from": "A resident at Unit 24",
+      "message": "My neighbor at Unit 25 installed very bright spotlights on their garage that shine into my bedroom window. The lights are blinding at night."
+    },
+    "facts": {
+      "lighting_type": "spotlights",
+      "direction": "toward_neighbor",
+      "visibility": "source_visible_from_neighbor"
+    },
+    "applicable_rules": ["exterior_lighting_restrictions"],
+    "ground_truth": {
+      "decision": "violation",
+      "reasoning": "Section 3.7(u) prohibits exterior lighting whose source is visible from neighboring lots unless it's ordinary nondirectional bulbs under 150 watts in white or yellow. Spotlights are directional by nature and likely violate this rule.",
+      "correct_response_elements": [
+        "Must cite the lighting restriction",
+        "Should note the nondirectional and color requirements",
+        "Should indicate this is likely a violation pending inspection"
+      ]
+    },
+    "tags": ["clear_violation", "threshold_rule", "structures", "neighbor_complaint"]
+  },
+  {
+    "id": "structures_lighting_002",
+    "category": "structures",
+    "subcategory": "holiday_lighting",
+    "difficulty": "medium",
+    "input": {
+      "type": "neighbor_complaint",
+      "from": "A resident at Unit 35",
+      "message": "My neighbor at Unit 36 has multicolored Christmas lights visible from my property. I thought colored lights weren't allowed?"
+    },
+    "facts": {
+      "lighting_type": "holiday_christmas_lights",
+      "colors": "multicolored",
+      "season": "winter_holiday"
+    },
+    "applicable_rules": ["exterior_lighting_restrictions"],
+    "ground_truth": {
+      "decision": "no_violation",
+      "reasoning": "Section 3.7(u) explicitly exempts 'holiday lighting decorations temporarily installed for the Winter holiday season.' Multicolored Christmas lights during the winter holiday season are permitted.",
+      "correct_response_elements": [
+        "Must cite the holiday lighting exception",
+        "Should confirm no violation during winter holiday season",
+        "May note lights should be temporary"
+      ]
+    },
+    "tags": ["exception_applies", "structures", "neighbor_complaint"]
+  },
+  {
+    "id": "structures_clothesline_001",
+    "category": "structures",
+    "subcategory": "clothesline",
+    "difficulty": "medium",
+    "input": {
+      "type": "resident_request",
+      "from": "A resident at Unit 50",
+      "message": "I want to install a clothesline in my backyard to dry laundry and save energy. My backyard has a 6-foot privacy fence. Is this allowed?"
+    },
+    "facts": {
+      "structure_type": "clothesline",
+      "location": "fenced_backyard",
+      "fence_height_ft": 6,
+      "visibility": "not_visible_from_street"
+    },
+    "applicable_rules": ["clothes_lines_prohibition"],
+    "ground_truth": {
+      "decision": "approve",
+      "reasoning": "Section 3.7(s) prohibits outside clotheslines EXCEPT within fenced yards that are not visible from streets or ground level of adjoining lots. A clothesline in a 6-foot fenced backyard that isn't visible meets this exception.",
+      "correct_response_elements": [
+        "Must confirm clothesline is allowed in fenced yard",
+        "Should explain the visibility requirement",
+        "May note it must remain not visible from street/neighbors"
+      ]
+    },
+    "tags": ["exception_applies", "structures", "clear_approval"]
+  },
+  {
+    "id": "vehicles_rv_001",
+    "category": "vehicles",
+    "subcategory": "rv_prohibition",
+    "difficulty": "easy",
+    "input": {
+      "type": "violation_report",
+      "from": "Property inspection",
+      "message": "Unit 31 has a boat trailer parked in the driveway for the past week."
+    },
+    "facts": {
+      "vehicle_type": "boat_trailer",
+      "parking_location": "driveway",
+      "duration": "1_week"
+    },
+    "applicable_rules": ["rv_boat_trailer_prohibition"],
+    "ground_truth": {
+      "decision": "violation",
+      "reasoning": "Section 3.4(b) prohibits the parking of boats and trailers except in enclosed garages. A boat trailer parked in the driveway for a week is a clear violation.",
+      "correct_response_elements": [
+        "Must cite the prohibition on boats/trailers",
+        "Should note the exception only applies to enclosed garages",
+        "Must identify this as a violation"
+      ]
+    },
+    "tags": ["clear_violation", "prohibition_rule", "vehicles"]
+  },
+  {
+    "id": "vehicles_rv_002",
+    "category": "vehicles",
+    "subcategory": "rv_prohibition",
+    "difficulty": "medium",
+    "input": {
+      "type": "resident_request",
+      "from": "A resident at Unit 3",
+      "message": "We're leaving for a camping trip tomorrow morning. Can I park my RV in my driveway overnight tonight to load it up?"
+    },
+    "facts": {
+      "vehicle_type": "rv",
+      "parking_location": "driveway",
+      "duration": "overnight",
+      "purpose": "loading_for_trip"
+    },
+    "applicable_rules": ["rv_boat_trailer_prohibition"],
+    "ground_truth": {
+      "decision": "approve",
+      "reasoning": "Section 3.4(b) exempts RVs temporarily for 'moving furnishings, equipment, or supplies into or out of the Project.' Loading an RV for a trip falls under this temporary exception.",
+      "correct_response_elements": [
+        "Should acknowledge the temporary exception for loading",
+        "Should note this is permitted for reasonable loading time",
+        "May remind them the RV cannot remain parked long-term"
+      ]
+    },
+    "tags": ["exception_applies", "vehicles", "clear_approval"]
+  },
+  {
+    "id": "vehicles_pickup_001",
+    "category": "vehicles",
+    "subcategory": "commercial_vehicle",
+    "difficulty": "medium",
+    "input": {
+      "type": "neighbor_complaint",
+      "from": "A resident at Unit 11",
+      "message": "My neighbor at Unit 12 parks a pickup truck with a small logo for their landscaping business on the door. Isn't commercial vehicles prohibited?"
+    },
+    "facts": {
+      "vehicle_type": "light_pickup_truck",
+      "commercial_markings": "small_logo",
+      "use": "personal_and_business"
+    },
+    "applicable_rules": ["rv_boat_trailer_prohibition"],
+    "ground_truth": {
+      "decision": "no_violation",
+      "reasoning": "Section 3.4(b) exempts 'light pick-up trucks and vans used for personal use and for commercial purposes, provided that any signs or markings of a commercial nature on such vehicles is unobtrusive and inoffensive.' A small logo qualifies as unobtrusive.",
+      "correct_response_elements": [
+        "Must acknowledge the exception for light pickup trucks",
+        "Must reference the 'unobtrusive' signage standard",
+        "Should explain this is permitted"
+      ]
+    },
+    "tags": ["exception_applies", "vehicles", "neighbor_complaint"]
+  },
+  {
+    "id": "vehicles_garage_001",
+    "category": "vehicles",
+    "subcategory": "garage_capacity",
+    "difficulty": "medium",
+    "input": {
+      "type": "violation_report",
+      "from": "Property inspection",
+      "message": "Unit 40 appears to have converted their 2-car garage into a workshop. No vehicles are parked inside, and both cars are in the driveway."
+    },
+    "facts": {
+      "garage_use": "workshop",
+      "vehicles_in_garage": 0,
+      "vehicles_in_driveway": 2,
+      "garage_capacity": 2
+    },
+    "applicable_rules": ["garage_vehicle_capacity", "vehicle_parking_location"],
+    "ground_truth": {
+      "decision": "violation",
+      "reasoning": "Section 3.4(d) prohibits using a garage for storage so that it cannot store at least 2 vehicles, and explicitly states garages may not be converted. Additionally, occupants must use the garage to park their vehicles.",
+      "correct_response_elements": [
+        "Must cite the garage capacity requirement",
+        "Should mention the prohibition on converting garages",
+        "Should note vehicles must be parked in garage"
+      ]
+    },
+    "tags": ["clear_violation", "requirement_rule", "vehicles"]
+  },
+  {
+    "id": "vehicles_overnight_001",
+    "category": "vehicles",
+    "subcategory": "overnight_parking",
+    "difficulty": "easy",
+    "input": {
+      "type": "violation_report",
+      "from": "Property inspection",
+      "message": "Unit 46 consistently has a car parked in their driveway overnight. The garage is functional."
+    },
+    "facts": {
+      "parking_location": "driveway",
+      "time": "overnight",
+      "garage_available": true
+    },
+    "applicable_rules": ["overnight_parking_garage"],
+    "ground_truth": {
+      "decision": "violation",
+      "reasoning": "Section 3.4(d) requires occupants' vehicles to be parked in garages at night. Leaving a car in the driveway overnight when a functional garage is available is a violation.",
+      "correct_response_elements": [
+        "Must cite the overnight garage parking requirement",
+        "Must identify this as a violation"
+      ]
+    },
+    "tags": ["clear_violation", "requirement_rule", "vehicles"]
+  },
+  {
+    "id": "vehicles_inoperable_001",
+    "category": "vehicles",
+    "subcategory": "inoperable_vehicle",
+    "difficulty": "easy",
+    "input": {
+      "type": "violation_report",
+      "from": "Property inspection",
+      "message": "Unit 54 has a car in their driveway that appears inoperable - flat tires, broken window, hasn't moved in weeks."
+    },
+    "facts": {
+      "vehicle_condition": "inoperable",
+      "issues": ["flat_tires", "broken_window"],
+      "location": "driveway"
+    },
+    "applicable_rules": ["vehicle_street_legal"],
+    "ground_truth": {
+      "decision": "violation",
+      "reasoning": "Section 3.4(a) prohibits vehicles that are not 'completely operational' or don't have 'all body parts intact.' A car with flat tires and a broken window is neither operational nor intact.",
+      "correct_response_elements": [
+        "Must cite the operational/intact requirement",
+        "Must identify this as a violation",
+        "Should request the vehicle be repaired or removed"
+      ]
+    },
+    "tags": ["clear_violation", "prohibition_rule", "vehicles"]
+  },
+  {
+    "id": "vehicles_motorcycle_001",
+    "category": "vehicles",
+    "subcategory": "motorcycle_storage",
+    "difficulty": "easy",
+    "input": {
+      "type": "violation_report",
+      "from": "Property inspection",
+      "message": "Unit 21 has a motorcycle parked on their front porch."
+    },
+    "facts": {
+      "vehicle_type": "motorcycle",
+      "location": "front_porch"
+    },
+    "applicable_rules": ["motorcycle_storage"],
+    "ground_truth": {
+      "decision": "violation",
+      "reasoning": "Section 3.4(c) requires motorcycles to be stored in enclosed garages. A motorcycle on the front porch is a violation.",
+      "correct_response_elements": [
+        "Must cite the enclosed garage requirement for motorcycles",
+        "Must identify this as a violation"
+      ]
+    },
+    "tags": ["clear_violation", "prohibition_rule", "vehicles"]
+  },
+  {
+    "id": "vehicles_garage_door_001",
+    "category": "vehicles",
+    "subcategory": "garage_door",
+    "difficulty": "easy",
+    "input": {
+      "type": "neighbor_complaint",
+      "from": "A resident at Unit 45",
+      "message": "My neighbor at Unit 46 always leaves their garage door wide open. It's an eyesore - you can see all their junk inside."
+    },
+    "facts": {
+      "garage_door_state": "open",
+      "frequency": "habitually",
+      "in_use": false
+    },
+    "applicable_rules": ["garage_door_closed"],
+    "ground_truth": {
+      "decision": "violation",
+      "reasoning": "Section 3.4(d) requires occupants to keep the garage door closed 'except when the garage is in actual use by an occupant.' Leaving it habitually open is a violation.",
+      "correct_response_elements": [
+        "Must cite the garage door requirement",
+        "Should note doors should be closed when not in active use"
+      ]
+    },
+    "tags": ["clear_violation", "requirement_rule", "vehicles", "neighbor_complaint"]
+  },
+  {
+    "id": "activities_hazardous_001",
+    "category": "activities",
+    "subcategory": "hazardous_materials",
+    "difficulty": "easy",
+    "input": {
+      "type": "neighbor_complaint",
+      "from": "A resident at Unit 1",
+      "message": "I think my neighbor at Unit 2 is storing a large amount of fireworks in their garage. Should I be concerned?"
+    },
+    "facts": {
+      "material_type": "fireworks",
+      "storage_location": "garage",
+      "quantity": "large"
+    },
+    "applicable_rules": ["hazardous_materials_prohibition"],
+    "ground_truth": {
+      "decision": "needs_more_info",
+      "reasoning": "Section 3.7(l) prohibits storage of flammable or explosive materials. Fireworks are explosive. Investigation is needed to confirm the report and assess whether the quantity poses a safety concern.",
+      "correct_response_elements": [
+        "Should acknowledge fireworks could be prohibited",
+        "Should indicate investigation is warranted",
+        "May note this could be a safety issue"
+      ]
+    },
+    "tags": ["prohibition_rule", "activities", "neighbor_complaint", "needs_investigation"]
+  },
+  {
+    "id": "activities_equipment_001",
+    "category": "activities",
+    "subcategory": "unattended_equipment",
+    "difficulty": "easy",
+    "input": {
+      "type": "violation_report",
+      "from": "Property inspection",
+      "message": "Unit 9 has a lawnmower and various garden tools left out in their front yard."
+    },
+    "facts": {
+      "equipment_type": ["lawnmower", "garden_tools"],
+      "location": "front_yard",
+      "in_use": false
+    },
+    "applicable_rules": ["unattended_equipment_prohibition"],
+    "ground_truth": {
+      "decision": "violation",
+      "reasoning": "Section 3.7(q) prohibits unattended equipment in front yards and areas visible from adjoining lots, streets, or Common Areas. Garden equipment left out in the front yard is a violation.",
+      "correct_response_elements": [
+        "Must cite the unattended equipment prohibition",
+        "Must identify this as a violation",
+        "Should request equipment be stored out of sight"
+      ]
+    },
+    "tags": ["clear_violation", "prohibition_rule", "activities"]
+  },
+  {
+    "id": "clarification_decorations_001",
+    "category": "structures",
+    "subcategory": "holiday_decorations",
+    "difficulty": "easy",
+    "input": {
+      "type": "clarification_question",
+      "from": "A resident at Unit 15",
+      "message": "I'm new to the community. What are the rules about holiday decorations?"
+    },
+    "facts": {},
+    "applicable_rules": ["exterior_lighting_restrictions"],
+    "ground_truth": {
+      "decision": "needs_more_info",
+      "reasoning": "Section 3.7(u) exempts 'holiday lighting decorations temporarily installed for the Winter holiday season' from the exterior lighting rules. The rules explicitly allow winter holiday lights. Other holiday decorations would fall under general exterior modification rules.",
+      "correct_response_elements": [
+        "Should mention winter holiday lights are explicitly allowed",
+        "Should note they must be temporary",
+        "Should not invent specific rules about decoration types/timing"
+      ]
+    },
+    "tags": ["clarification", "structures"]
+  },
+  {
+    "id": "clarification_pets_001",
+    "category": "pets",
+    "subcategory": "general",
+    "difficulty": "easy",
+    "input": {
+      "type": "clarification_question",
+      "from": "A resident at Unit 53",
+      "message": "Can you give me a quick summary of the pet rules? I'm thinking about getting a pet."
+    },
+    "facts": {},
+    "applicable_rules": ["pet_count_limit", "pet_weight_limit", "pet_leash_requirement", "pet_barking"],
+    "ground_truth": {
+      "decision": "needs_more_info",
+      "reasoning": "Key pet rules include: (1) Up to 2 dogs, 2 cats, or 1 of each; (2) 35-pound weight limit; (3) Dogs must be leashed in Common Areas; (4) No continuous barking; (5) Fish and caged birds always allowed.",
+      "correct_response_elements": [
+        "Should mention the count limits (2 dogs OR 2 cats OR 1+1)",
+        "Should mention the 35-pound weight limit",
+        "Should mention leash requirements",
+        "May mention other pet rules"
+      ]
+    },
+    "tags": ["clarification", "pets"]
+  },
+  {
+    "id": "hard_judgment_001",
+    "category": "vehicles",
+    "subcategory": "commercial_markings",
+    "difficulty": "hard",
+    "input": {
+      "type": "neighbor_complaint",
+      "from": "A resident at Unit 19",
+      "message": "My neighbor at Unit 20 has a white van with a large wrap advertisement for their plumbing business covering the entire side of the van. It's quite prominent and I don't think it should be allowed."
+    },
+    "facts": {
+      "vehicle_type": "van",
+      "commercial_markings": "full_wrap_advertisement",
+      "marking_size": "entire_side"
+    },
+    "applicable_rules": ["rv_boat_trailer_prohibition"],
+    "ground_truth": {
+      "decision": "violation",
+      "reasoning": "Section 3.4(b) exempts light pickup trucks and vans only if commercial markings are 'unobtrusive and inoffensive.' A full wrap advertisement covering the entire side of a van is not unobtrusive - it's prominently advertising a business. This likely exceeds the exception.",
+      "correct_response_elements": [
+        "Should cite the 'unobtrusive' standard",
+        "Should explain that full wrap advertising is not unobtrusive",
+        "Should indicate this is likely a violation",
+        "May acknowledge some judgment is involved"
+      ]
+    },
+    "tags": ["subjective_rule", "vehicles", "neighbor_complaint", "judgment_required"]
+  },
+  {
+    "id": "hard_conflicting_001",
+    "category": "activities",
+    "subcategory": "home_business",
+    "difficulty": "hard",
+    "input": {
+      "type": "resident_request",
+      "from": "A resident at Unit 56",
+      "message": "I'm a professional dog trainer and want to start seeing clients at my home - maybe 2-3 appointments per day. The dogs would just be in my backyard during sessions. Is this allowed?"
+    },
+    "facts": {
+      "business_type": "dog_training",
+      "customer_visits": "2-3_per_day",
+      "location": "backyard",
+      "signage": false
+    },
+    "applicable_rules": ["home_business_restrictions"],
+    "ground_truth": {
+      "decision": "deny",
+      "reasoning": "Section 3.3 prohibits home businesses that have 'in-person calls by customers, employees, or delivery persons except on an infrequent basis.' 2-3 daily client appointments is not 'infrequent' - it represents regular, daily customer traffic that would change the residential character of the property.",
+      "correct_response_elements": [
+        "Must cite the customer visit restriction",
+        "Should explain 2-3 daily visits is not 'infrequent'",
+        "Must deny the request as described"
+      ]
+    },
+    "tags": ["subjective_rule", "activities", "judgment_required"]
+  },
+  {
+    "id": "hard_edge_case_001",
+    "category": "pets",
+    "subcategory": "weight_limit",
+    "difficulty": "hard",
+    "input": {
+      "type": "resident_request",
+      "from": "A resident at Unit 57",
+      "message": "I have a dog that was 33 pounds when I moved in but she's now 37 pounds after some health issues led to weight gain. We're working with a vet to get her back to a healthy weight. Are we in violation?"
+    },
+    "facts": {
+      "animal_type": "dog",
+      "original_weight_lbs": 33,
+      "current_weight_lbs": 37,
+      "reason": "health_related_weight_gain",
+      "vet_supervision": true
+    },
+    "applicable_rules": ["pet_weight_limit"],
+    "ground_truth": {
+      "decision": "needs_more_info",
+      "reasoning": "Section 3.7(w) limits pets to 35 pounds. Technically, a 37-pound dog exceeds this limit. However, the situation involves a pre-existing pet with health-related weight gain being actively managed. The Board may need to use discretion on enforcement timeline and consider the owner's good faith efforts.",
+      "correct_response_elements": [
+        "Should acknowledge the 35-pound limit exists",
+        "Should acknowledge this is a nuanced situation",
+        "May request documentation of vet plan",
+        "Should NOT automatically demand removal of a long-term pet"
+      ]
+    },
+    "tags": ["edge_case", "pets", "judgment_required"]
+  },
+  {
+    "id": "hard_retroactive_002",
+    "category": "structures",
+    "subcategory": "unapproved_modification",
+    "difficulty": "hard",
+    "input": {
+      "type": "violation_report",
+      "from": "Property inspection",
+      "message": "Unit 58 has a 9-foot tall pergola in their backyard that was not in the last inspection. No architectural approval on file."
+    },
+    "facts": {
+      "structure_type": "pergola",
+      "height_ft": 9,
+      "approval_status": "none",
+      "max_height_without_approval": 8
+    },
+    "applicable_rules": ["freestanding_structure_total_height", "exterior_modification_approval"],
+    "ground_truth": {
+      "decision": "violation",
+      "reasoning": "Two violations: (1) Section 3.7(t) limits backyard structures to 8 feet without approval - this is 9 feet; (2) Section 8.3 requires Architectural Committee approval for any exterior modification, which was not obtained. The owner may need to apply for retroactive approval or modify/remove the structure.",
+      "correct_response_elements": [
+        "Must identify the height violation (9ft > 8ft)",
+        "Must identify the lack of approval",
+        "Should explain possible remedies (retroactive approval, modification, removal)"
+      ]
+    },
+    "tags": ["multiple_violations", "structures", "retroactive"]
+  },
+  {
+    "id": "medium_multiple_001",
+    "category": "pets",
+    "subcategory": "multiple_issues",
+    "difficulty": "medium",
+    "input": {
+      "type": "violation_report",
+      "from": "Property inspection",
+      "message": "Unit 59: Two large dogs observed in the backyard. One appears to be a German Shepherd, the other a Labrador. Both estimated at 60+ pounds."
+    },
+    "facts": {
+      "dog_count": 2,
+      "dog_breeds": ["german_shepherd", "labrador"],
+      "estimated_weights": [60, 60]
+    },
+    "applicable_rules": ["pet_count_limit", "pet_weight_limit"],
+    "ground_truth": {
+      "decision": "violation",
+      "reasoning": "While having 2 dogs is within the count limit per Section 3.7(w), both dogs significantly exceed the 35-pound weight limit. German Shepherds and Labradors typically weigh 60-80+ pounds. This is a weight limit violation for both animals.",
+      "correct_response_elements": [
+        "Should note dog count is within limits",
+        "Must identify weight violations for both dogs",
+        "Must cite the 35-pound limit"
+      ]
+    },
+    "tags": ["multiple_violations", "threshold_rule", "pets"]
+  },
+  {
+    "id": "medium_process_001",
+    "category": "architectural",
+    "subcategory": "solar_panels",
+    "difficulty": "medium",
+    "input": {
+      "type": "resident_request",
+      "from": "A resident at Unit 60",
+      "message": "We want to install solar panels on our roof. I've heard California law protects solar installations - do I still need HOA approval?"
+    },
+    "facts": {
+      "modification_type": "solar_panels",
+      "location": "roof"
+    },
+    "applicable_rules": ["architectural_approval_scope"],
+    "ground_truth": {
+      "decision": "refer_to_committee",
+      "reasoning": "Section 8.3 explicitly mentions 'solar energy systems' as requiring approval. While California law (Civil Code 714) limits HOA's ability to prohibit solar installations, it doesn't eliminate the approval process - it just restricts what conditions can be imposed. The owner should still submit for approval.",
+      "correct_response_elements": [
+        "Should indicate approval is still required",
+        "May acknowledge state law limits on HOA restrictions",
+        "Should NOT tell them no approval is needed"
+      ]
+    },
+    "tags": ["process_rule", "architectural", "state_law_interaction"]
+  },
+  {
+    "id": "pets_weight_003",
+    "category": "pets",
+    "subcategory": "weight_limit",
+    "difficulty": "easy",
+    "input": {
+      "type": "resident_request",
+      "from": "A resident at Unit 61",
+      "message": "We're looking at adopting a beagle from the shelter. The listing says he's 28 pounds. Is that within the HOA limits?"
+    },
+    "facts": {
+      "animal_type": "dog",
+      "breed": "beagle",
+      "weight_lbs": 28
+    },
+    "applicable_rules": ["pet_weight_limit"],
+    "ground_truth": {
+      "decision": "approve",
+      "reasoning": "Section 3.7(w) allows pets up to 35 pounds. A 28-pound beagle is well within the weight limit.",
+      "correct_response_elements": [
+        "Must confirm the dog is allowed",
+        "May mention the 35-pound limit"
+      ]
+    },
+    "tags": ["clear_approval", "threshold_rule", "pets"]
+  },
+  {
+    "id": "pets_birds_001",
+    "category": "pets",
+    "subcategory": "caged_birds",
+    "difficulty": "easy",
+    "input": {
+      "type": "resident_request",
+      "from": "A resident at Unit 62",
+      "message": "I'd like to get a couple of parakeets to keep in a cage in my living room. We already have a cat. Is this okay?"
+    },
+    "facts": {
+      "current_cats": 1,
+      "proposed_birds": "parakeets",
+      "bird_location": "cage_indoors"
+    },
+    "applicable_rules": ["pet_count_limit"],
+    "ground_truth": {
+      "decision": "approve",
+      "reasoning": "Section 3.7(w) explicitly allows 'domestic birds such as parakeets kept in a cage in the Unit' in addition to the dog/cat limits. Having a cat plus caged parakeets is fully compliant.",
+      "correct_response_elements": [
+        "Must confirm parakeets are allowed",
+        "Should mention caged birds are always permitted"
+      ]
+    },
+    "tags": ["clear_approval", "count_rule", "pets"]
+  },
+  {
+    "id": "vehicles_visitor_001",
+    "category": "vehicles",
+    "subcategory": "visitor_parking",
+    "difficulty": "easy",
+    "input": {
+      "type": "resident_request",
+      "from": "A resident at Unit 63",
+      "message": "My parents are visiting for the weekend. Where should they park their car?"
+    },
+    "facts": {
+      "vehicle_owner": "visitor",
+      "visit_duration": "weekend"
+    },
+    "applicable_rules": ["vehicle_parking_location"],
+    "ground_truth": {
+      "decision": "approve",
+      "reasoning": "Section 3.4 restricts parking to garages or designated parking areas but the overnight and garage requirements apply to 'occupants' vehicles. Visitor parking for a weekend is a normal residential activity. The resident should direct visitors to designated parking areas.",
+      "correct_response_elements": [
+        "Should indicate visitor parking is allowed",
+        "May direct to designated parking areas",
+        "Should NOT require visitors to use garage"
+      ]
+    },
+    "tags": ["clear_approval", "vehicles"]
+  },
+  {
+    "id": "rental_family_001",
+    "category": "rental",
+    "subcategory": "family_occupancy",
+    "difficulty": "easy",
+    "input": {
+      "type": "resident_request",
+      "from": "A resident at Unit 64",
+      "message": "My adult daughter is going through a divorce and needs a place to stay. She'll be living with me for a few months. Do I need to notify anyone?"
+    },
+    "facts": {
+      "occupant_type": "immediate_family",
+      "arrangement": "living_with_owner",
+      "rental": false
+    },
+    "applicable_rules": ["rental_notification"],
+    "ground_truth": {
+      "decision": "approve",
+      "reasoning": "Section 3.2's notification requirement applies when a lot is occupied 'by other than the Owner or such Owner's immediate family.' An adult daughter is immediate family, so no rental notification is required when living with the owner.",
+      "correct_response_elements": [
+        "Must confirm no notification required",
+        "Should explain immediate family exemption"
+      ]
+    },
+    "tags": ["clear_approval", "rental", "exception_applies"]
+  },
+  {
+    "id": "noise_daytime_001",
+    "category": "noise",
+    "subcategory": "normal_activity",
+    "difficulty": "easy",
+    "input": {
+      "type": "neighbor_complaint",
+      "from": "A resident at Unit 65",
+      "message": "My neighbor at Unit 66 mows their lawn every Saturday morning around 10am. The mower is pretty loud. Is this a violation?"
+    },
+    "facts": {
+      "noise_source": "lawn_mower",
+      "frequency": "weekly",
+      "time": "saturday_morning_10am",
+      "activity": "normal_yard_maintenance"
+    },
+    "applicable_rules": ["noise_decibel_limit"],
+    "ground_truth": {
+      "decision": "no_violation",
+      "reasoning": "While lawn mowers can be loud, normal yard maintenance during reasonable daytime hours is expected residential activity. Without decibel measurements showing a violation of the 45 dB limit at the property line, occasional lawn mowing is not inherently a violation. The complainant should expect some level of normal residential noise.",
+      "correct_response_elements": [
+        "Should acknowledge this is normal residential activity",
+        "Should NOT automatically side with complainant",
+        "May note that actual measurement would be needed to confirm any violation"
+      ]
+    },
+    "tags": ["no_violation", "noise", "neighbor_complaint"]
+  },
+  {
+    "id": "structures_fence_repair_001",
+    "category": "structures",
+    "subcategory": "maintenance",
+    "difficulty": "easy",
+    "input": {
+      "type": "resident_request",
+      "from": "A resident at Unit 67",
+      "message": "A few boards on my backyard fence are rotting and need to be replaced. I'll use matching wood and the same stain. Do I need approval for this?"
+    },
+    "facts": {
+      "modification_type": "fence_repair",
+      "material_change": false,
+      "color_change": false,
+      "scope": "minor_repair"
+    },
+    "applicable_rules": ["exterior_modification_approval"],
+    "ground_truth": {
+      "decision": "approve",
+      "reasoning": "Replacing damaged fence boards with matching materials as routine maintenance is generally not considered an 'alteration or modification' requiring approval under Section 3.8. This is repair to maintain existing condition, not a change to the exterior.",
+      "correct_response_elements": [
+        "Should confirm routine repairs don't need approval",
+        "May note matching materials is important",
+        "Should distinguish repair from modification"
+      ]
+    },
+    "tags": ["clear_approval", "structures", "maintenance"]
+  },
+  {
+    "id": "activities_delivery_001",
+    "category": "activities",
+    "subcategory": "home_business",
+    "difficulty": "easy",
+    "input": {
+      "type": "neighbor_complaint",
+      "from": "A resident at Unit 68",
+      "message": "My neighbor at Unit 69 gets Amazon packages delivered almost every day. I think they might be running a business."
+    },
+    "facts": {
+      "delivery_frequency": "daily",
+      "package_source": "amazon",
+      "business_evidence": "none_beyond_deliveries"
+    },
+    "applicable_rules": ["home_business_restrictions"],
+    "ground_truth": {
+      "decision": "no_violation",
+      "reasoning": "Receiving personal deliveries, even frequently, is normal residential activity. Section 3.3's home business restrictions apply to running a trade or business, not to personal shopping habits. Without evidence of actual business activity (signage, customers, inventory for sale), frequent Amazon deliveries are not a violation.",
+      "correct_response_elements": [
+        "Should explain deliveries alone don't indicate a business",
+        "Should NOT assume violation based on delivery frequency",
+        "Should note what would actually constitute a violation"
+      ]
+    },
+    "tags": ["no_violation", "activities", "neighbor_complaint"]
+  },
+  {
+    "id": "occupancy_guests_001",
+    "category": "occupancy",
+    "subcategory": "temporary_guests",
+    "difficulty": "easy",
+    "input": {
+      "type": "resident_request",
+      "from": "A resident at Unit 70",
+      "message": "We're having family visit for the holidays - 6 people will be staying with us for about 10 days. We have a 3-bedroom unit. Is this a problem?"
+    },
+    "facts": {
+      "bedrooms": 3,
+      "regular_occupants": 2,
+      "temporary_guests": 6,
+      "total_during_visit": 8,
+      "visit_duration_days": 10
+    },
+    "applicable_rules": ["occupancy_limit"],
+    "ground_truth": {
+      "decision": "approve",
+      "reasoning": "Section 3.1's occupancy limit of (bedrooms × 2) + 1 applies to who 'may be occupied' - referring to residents, not temporary guests. Holiday visitors staying for 10 days are guests, not occupants. This is normal residential use.",
+      "correct_response_elements": [
+        "Should confirm temporary guests don't count toward occupancy limits",
+        "Should distinguish guests from occupants/residents"
+      ]
+    },
+    "tags": ["clear_approval", "occupancy", "exception_applies"]
+  },
+  {
+    "id": "signs_security_001",
+    "category": "signs",
+    "subcategory": "security_signs",
+    "difficulty": "easy",
+    "input": {
+      "type": "resident_request",
+      "from": "A resident at Unit 71",
+      "message": "I installed a home security system and want to put up a small sign that says 'Protected by ABC Security' in my front yard. Is this allowed?"
+    },
+    "facts": {
+      "sign_type": "security_company",
+      "sign_size": "small",
+      "purpose": "deterrent"
+    },
+    "applicable_rules": ["sign_general_prohibition"],
+    "ground_truth": {
+      "decision": "approve",
+      "reasoning": "Section 3.7(x) lists exceptions to the general sign prohibition, including 'safety directional signs.' A small security system sign serves a safety purpose and is standard residential practice. This falls within the spirit of allowed safety signage.",
+      "correct_response_elements": [
+        "Should confirm small security signs are acceptable",
+        "May reference safety sign exception"
+      ]
+    },
+    "tags": ["clear_approval", "signs", "exception_applies"]
+  }
+]

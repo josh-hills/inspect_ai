@@ -1,0 +1,15 @@
+# configs/personas/chad.yaml
+
+identity:
+  name: "Chad Stevenson"
+  unit: 12
+  tenure_years: 6
+
+personality:
+  archetype: "rules_lawyer"
+  communication_style: "analytical"
+
+background:
+  - Real estate attorney by profession
+  - Read the CC&Rs thoroughly before purchasing
+  - Keeps detailed records of all HOA correspondence

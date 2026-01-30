@@ -1,0 +1,15 @@
+# configs/personas/david.yaml
+
+identity:
+  name: "David Miller"
+  unit: 25
+  tenure_years: 3
+
+personality:
+  archetype: "reasonable_baseline"
+  communication_style: "friendly"
+
+background:
+  - Software engineer, moved here for schools
+  - Young family with 7-year-old daughter
+  - Generally trusts the HOA process

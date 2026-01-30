@@ -1,0 +1,507 @@
+# configs/rules.yaml
+# Extracted rules from Camino Village HOA CC&Rs
+
+metadata:
+  source: "Camino Village HOA CC&Rs (First Restated)"
+  extracted_date: "2025-01-30"
+  document_pages: 72
+  notes: "Rules extracted from Sacramento County recorded CC&Rs. Page numbers reference the internal document pagination."
+  not_found_in_document:
+    - "Specific fence height limit (only 8-foot freestanding structure limit exists)"
+    - "Specific setback distances (mentioned in architectural criteria but no numeric values)"
+    - "Quiet hours (only decibel limit exists)"
+    - "Grass height limit (only subjective 'improper weed/vegetation control' standard)"
+
+rules:
+  # ============================================================================
+  # OCCUPANCY RULES
+  # ============================================================================
+  - id: occupancy_limit
+    category: occupancy
+    text: "No Unit may be occupied by more than two (2) persons per bedroom plus one (1) additional person without the prior written approval of the Board."
+    source: "Section 3.1"
+    rule_type: threshold
+    params:
+      metric: persons_per_bedroom
+      operator: "<="
+      value: 2
+      additional_allowed: 1
+    requires_approval: true
+    notes: "Formula: (bedrooms × 2) + 1 = max occupants without Board approval"
+
+  # ============================================================================
+  # RENTAL RULES
+  # ============================================================================
+  - id: rental_minimum_duration
+    category: rental
+    text: "No Lot may be leased or rented for a period of less than Ninety (90) consecutive days."
+    source: "Section 3.2"
+    rule_type: threshold
+    params:
+      metric: lease_duration_days
+      operator: ">="
+      value: 90
+    requires_approval: false
+    enforcement: "Breach of Governing Documents is a default of the lease or rental agreement"
+
+  - id: rental_notification
+    category: rental
+    text: "The occupancy of a Lot by other than the Owner or such Owner's immediate family must be reported to the Association in writing prior to such occupancy and a copy of the written rental agreement or lease must be concurrently furnished to the Association."
+    source: "Section 3.2"
+    rule_type: requirement
+    requires_approval: false
+
+  - id: rental_transient_prohibition
+    category: rental
+    text: "No Lot may be rented or leased for transient or hotel purposes."
+    source: "Section 3.1"
+    rule_type: prohibition
+    requires_approval: false
+
+  # ============================================================================
+  # VEHICLE RULES
+  # ============================================================================
+  - id: vehicle_parking_location
+    category: vehicles
+    text: "Vehicles may not be parked within the Project, including the streets, except within an enclosed garage or on areas of the Project that the Rules specifically designate as for parking."
+    source: "Section 3.4"
+    rule_type: prohibition
+    requires_approval: false
+
+  - id: vehicle_street_legal
+    category: vehicles
+    text: "Vehicles that lack any of the following qualities: street legal (other than vehicles specifically designed as off-road vehicles), completely operational, quiet, smoke-free, all lights work, and all body parts are intact [are prohibited]."
+    source: "Section 3.4(a)"
+    rule_type: prohibition
+    requires_approval: false
+
+  - id: rv_boat_trailer_prohibition
+    category: vehicles
+    text: "The parking or maintenance of mobile homes, motor homes, trucks, commercial vehicles, campers, boats, trailers, or similar vehicles [is prohibited], except: (i) within enclosed garages provided that there is remaining space available in the garage for the occupants' other vehicles; (ii) where required temporarily for the construction, repair, refinishing, or maintenance of any part of the Project; (iii) for moving furnishings, equipment, or supplies into or out of the Project; or (iv) for washing vehicles in a Lot's driveway or (v) light pick-up trucks and vans used for personal use and for commercial purposes, provided that any signs or markings of a commercial nature on such vehicles is unobtrusive and inoffensive."
+    source: "Section 3.4(b)"
+    rule_type: prohibition
+    exceptions:
+      - garage_stored_with_space
+      - temporary_construction
+      - moving
+      - washing_driveway
+      - light_pickup_personal_use
+    requires_approval: false
+    notes: "Light pickup trucks for personal use are exempted if commercial signage is unobtrusive"
+
+  - id: motorcycle_storage
+    category: vehicles
+    text: "The placement or maintenance of motorcycles, trail bikes, off-road vehicles, or bicycles, except within enclosed garages [is prohibited]. Off-road unlicenced motor vehicles may not be operated within the Project."
+    source: "Section 3.4(c)"
+    rule_type: prohibition
+    requires_approval: false
+
+  - id: garage_vehicle_capacity
+    category: vehicles
+    text: "Using a garage for storage or otherwise so that it cannot be used to store at least two (2) of the occupant's motor vehicles [is prohibited]. No garage may be converted to living quarters or otherwise disabled from being used for vehicle parking. Occupants must utilize the garage to park occupant's motor vehicles to the capacity of the garage."
+    source: "Section 3.4(d)"
+    rule_type: requirement
+    params:
+      metric: garage_vehicle_capacity
+      operator: ">="
+      value: 2
+    requires_approval: false
+
+  - id: garage_door_closed
+    category: vehicles
+    text: "Occupants must keep the exterior garage door closed except when the garage is in actual use by an occupant."
+    source: "Section 3.4(d)"
+    rule_type: requirement
+    requires_approval: false
+
+  - id: overnight_parking_garage
+    category: vehicles
+    text: "Occupants' vehicles must be parked in garages at night."
+    source: "Section 3.4(d)"
+    rule_type: requirement
+    requires_approval: false
+
+  - id: street_recreational_use_prohibition
+    category: vehicles
+    text: "The streets may not be used for recreational purposes, including but not limited to, skateboarding, joyriding and racing, except for walking and jogging and Board approved events."
+    source: "Section 3.5"
+    rule_type: prohibition
+    exceptions:
+      - walking
+      - jogging
+      - board_approved_events
+    requires_approval: false
+
+  # ============================================================================
+  # PET RULES
+  # ============================================================================
+  - id: pet_count_limit
+    category: pets
+    text: "The keeping, raising, or breeding of animals, reptiles, or birds of any kind, on any Unit, is prohibited, except the following: (i) not more than two (2) dogs; (ii) two (2) cats; (iii) one (1) dog and one (1) cat; (iv) fish and other marine life kept in an aquarium; or (v) domestic birds such as parakeets kept in a cage in the Unit."
+    source: "Section 3.7(w)"
+    rule_type: count
+    params:
+      metric: pet_combination
+      options:
+        - dogs: 2
+        - cats: 2
+        - dogs: 1
+          cats: 1
+        - fish_aquarium: unlimited
+        - caged_birds: unlimited
+    requires_approval: false
+    notes: "These are ALTERNATIVES - owner may choose ONE option. Cannot combine maximums (e.g., cannot have 2 dogs AND 2 cats). Fish in aquariums and caged domestic birds (e.g., parakeets) are always allowed in addition to the dog/cat options."
+
+  - id: pet_weight_limit
+    category: pets
+    text: "No animal which weighs more than 35 pounds is allowed within the Project."
+    source: "Section 3.7(w)"
+    rule_type: threshold
+    params:
+      metric: weight_lbs
+      operator: "<="
+      value: 35
+    requires_approval: false
+    notes: "Service animals may be exempt under ADA"
+
+  - id: pet_leash_requirement
+    category: pets
+    text: "Unleashed dogs are prohibited within the Common Area."
+    source: "Section 3.7(w)"
+    rule_type: requirement
+    requires_approval: false
+
+  - id: pet_tethering_prohibition
+    category: pets
+    text: "Animals may not be left chained or tethered in front of a Lot."
+    source: "Section 3.7(w)"
+    rule_type: prohibition
+    requires_approval: false
+
+  - id: pet_barking
+    category: pets
+    text: "Occupants must prevent dogs and other pets from continuously barking, or making other loud noises, or defecating in the Common Area or on other Lots."
+    source: "Section 3.7(w)"
+    rule_type: requirement
+    requires_approval: false
+
+  - id: pet_waste_cleanup
+    category: pets
+    text: "Owners must immediately clean up any pet defecation on Common Areas or on other Owner's Lots."
+    source: "Section 3.7(w)"
+    rule_type: requirement
+    requires_approval: false
+
+  - id: pet_commercial_prohibition
+    category: pets
+    text: "The keeping of animals for commercial purposes is prohibited."
+    source: "Section 3.7(w)"
+    rule_type: prohibition
+    requires_approval: false
+
+  - id: pet_removal_vicious
+    category: pets
+    text: "Animals which: (1) are kept in violation of this subsection; (ii) violate this subsection; or (iii) the Association finds to be vicious by nature or by temperament, must be removed by their owner from the Project upon order of the Association, and if not removed by the owner, may be removed by the Association and delivered to an animal shelter, pound, or animal control officer, without liability to the Association."
+    source: "Section 3.7(w)"
+    rule_type: process
+    requires_approval: false
+    enforcement: "Association may remove animal to shelter if owner does not comply"
+
+  # ============================================================================
+  # NOISE RULES
+  # ============================================================================
+  - id: noise_decibel_limit
+    category: noise
+    text: "Any activity upon any Lot, which activity causes any sound, whether intermittent, recurrent, or continuous, in excess of forty-five (45) decibels measured at any point on the boundary line of the Lot [is prohibited]."
+    source: "Section 3.7(p)"
+    rule_type: threshold
+    params:
+      metric: decibels
+      operator: "<="
+      value: 45
+      measurement_location: "boundary line of the Lot"
+    exceptions:
+      - security_alarms
+      - fire_alarms
+      - construction_work
+    requires_approval: false
+    notes: "Does not apply to security/fire alarms or construction work"
+
+  - id: noise_measurement_method
+    category: noise
+    text: "Decibel measurements will be the average of at least three (3) and at most five (5) decibel readings by a qualified technician."
+    source: "Section 3.7(p)"
+    rule_type: process
+    params:
+      min_readings: 3
+      max_readings: 5
+      measured_by: "qualified technician"
+    requires_approval: false
+
+
+  # ============================================================================
+  # STRUCTURE RULES
+  # ============================================================================
+  - id: freestanding_structure_platform_height
+    category: structures
+    text: "Any structure erected or maintained in a backyard, which allows a person to stand on a surface more than twenty-four (24) inches above ground level... without prior written approval of the Architectural Committee [is prohibited]."
+    source: "Section 3.7(t)"
+    rule_type: threshold
+    params:
+      metric: platform_height_inches
+      operator: "<="
+      value: 24
+    requires_approval: true
+    notes: "Applies to decks, platforms, or any surface a person can stand on"
+
+  - id: freestanding_structure_total_height
+    category: structures
+    text: "Any structure erected or maintained in a backyard... over eight (8) feet in height without prior written approval of the Architectural Committee [is prohibited]."
+    source: "Section 3.7(t)"
+    rule_type: threshold
+    params:
+      metric: structure_height_feet
+      operator: "<="
+      value: 8
+    requires_approval: true
+    notes: "This is a separate limit from the 24-inch platform rule - both must be satisfied or approval required"
+
+  - id: basketball_standards_prohibition
+    category: structures
+    text: "The placement of fixed or moveable basketball standards or sports apparatus [is prohibited]."
+    source: "Section 3.7(k)"
+    rule_type: prohibition
+    requires_approval: false
+
+  # ============================================================================
+  # LANDSCAPING RULES
+  # ============================================================================
+  - id: property_maintenance_standard
+    category: landscaping
+    text: "If the Board, in its discretion, determines that any Lot is maintained so as to become a nuisance, fire or safety hazard for any reason, including without limitation, the accumulation of trash, junk, or improper weed or vegetation control, the Association will have the right to enter said Lot, correct the offensive or hazardous condition and recover the cost of such action through imposition of a Special Individual Assessment against the offending Owner."
+    source: "Section 5.4(a)(iii)"
+    rule_type: subjective
+    requires_approval: false
+    enforcement: "Association may enter lot and correct condition, charging owner via Special Individual Assessment"
+    notes: "Subjective standard - Board has discretion. Common triggers include: trash accumulation, junk, improper weed control, overgrown vegetation."
+
+  - id: owner_landscaping_maintenance
+    category: landscaping
+    text: "Landscaping on such Owner's Lot and Benefit Easement... including proper trimming, mowing, watering, planting, weeding, replacement, fertilization, removal and/or replacement of dead, decaying, and/or destroyed vegetation, and maintenance and repair of water control timing units."
+    source: "Section 6.2(b)"
+    rule_type: requirement
+    requires_approval: false
+    notes: "Owner is responsible for all landscaping maintenance on their lot except front yard areas maintained by Association per Section 6.1"
+
+  - id: tree_removal_prohibition
+    category: landscaping
+    text: "No living tree may be destroyed or removed from the front of any Lot without the prior written consent by the Architectural Committee."
+    source: "Section 3.7(z)"
+    rule_type: prohibition
+    requires_approval: true
+
+  # ============================================================================
+  # SIGNS RULES
+  # ============================================================================
+  - id: sign_general_prohibition
+    category: signs
+    text: "The erection or maintenance of any signs on Common Area or Lots, whether commercial, political, or otherwise, which are visible from other Lots or Common Areas is prohibited."
+    source: "Section 3.7(x)"
+    rule_type: prohibition
+    exceptions:
+      - legal_proceedings_signs
+      - construction_job_signs
+      - safety_directional_signs
+      - entrance_signs
+      - for_sale_rent_signs
+      - political_signs
+      - residential_identification
+    requires_approval: false
+
+  - id: sign_construction_size
+    category: signs
+    text: "During the time of actual construction of an Improvement, job identification signs having a maximum face area of twenty-four (24) square feet per sign."
+    source: "Section 3.7(x)(ii)"
+    rule_type: threshold
+    params:
+      metric: sign_area_sqft
+      operator: "<="
+      value: 24
+    requires_approval: false
+
+  - id: sign_for_sale_rent
+    category: signs
+    text: "Not more than one (1) 'for sale' or 'for rent' sign in front of a Unit and one (1) such sign outside the project entrance gate... If no applicable statute or ordinance regulates the size of the sign, the size permitted will be no more than three (3) square feet."
+    source: "Section 3.7(x)(v)"
+    rule_type: threshold
+    params:
+      metric: sign_area_sqft
+      operator: "<="
+      value: 3
+      max_count: 1
+    requires_approval: false
+
+  - id: sign_political
+    category: signs
+    text: "Signs which designate political ballot issues, nominees, and/or political parties, provided the combined total area of such signs does not exceed three (3) square feet and provided such signs are removed within twenty-four (24) hours after the appropriate election."
+    source: "Section 3.7(x)(vi)"
+    rule_type: threshold
+    params:
+      metric: sign_area_sqft
+      operator: "<="
+      value: 3
+      removal_hours_after_election: 24
+    requires_approval: false
+    notes: "Political signs are prohibited in Common Areas"
+
+  # ============================================================================
+  # ACTIVITIES RULES
+  # ============================================================================
+  - id: garage_sales_limit
+    category: activities
+    text: "The use of front yards and garages for garage sales or other activities which clutter areas visible from the adjacent streets for more than two (2) days within any twelve (12) month period is prohibited. Garage sales require prior written approval from the Board. The use of exterior signs advertising garage or yard sales is prohibited."
+    source: "Section 3.7(r)"
+    rule_type: count
+    params:
+      metric: garage_sale_days_per_year
+      operator: "<="
+      value: 2
+    requires_approval: true
+    enforcement: "No exterior advertising signs allowed"
+
+  - id: home_business_restrictions
+    category: activities
+    text: "The conducting of any trade or business is prohibited, except those trades or businesses that are permitted by and comply with zoning and other laws or ordinances, and which do not: (i) change the overall residential use of the Unit; (ii) have persons other than the occupant employed or reporting to work at the Unit; (iii) display or publish the address of the business, except on business cards and letterhead; (v) display signs or other exterior indications of a trade or business; (vi) have items sold or offered for sale on the premises; (vii) involve in-person calls by customers, employees, or delivery persons except on an infrequent basis; (viii) require the storage of large amounts of bulky goods or inventory or any hazardous or toxic materials; or (ix) require the parking of vehicles on the streets within the Project."
+    source: "Section 3.3"
+    rule_type: prohibition
+    requires_approval: false
+    notes: "Home businesses must meet ALL listed criteria to be permitted"
+
+  # ============================================================================
+  # ARCHITECTURAL RULES
+  # ============================================================================
+  - id: exterior_modification_approval
+    category: architectural
+    text: "No Owner may at their expense or otherwise make any alterations or modifications to the exterior of their Unit and/or fences on the Owner's Lot without the prior written consent of the Board or the Architectural Committee, if any."
+    source: "Section 3.8"
+    rule_type: process
+    requires_approval: true
+    enforcement: "Unapproved modifications may be required to be removed at owner's expense"
+
+  - id: architectural_approval_scope
+    category: architectural
+    text: "No Owner, without the approval of the Architectural Committee, may construct, reconstruct or recolor, refinish, alter, or maintain any part of the exterior of any Improvement, excluding antennas and satellite dishes pursuant to State or Federal law, including solar energy systems and the addition or placement of accessory Buildings, or alter the topography or natural or existing surface drainage of the Project, utility lines (wire or conduit) on or over any Lot or Common Area, or landscape or landscaping in any yard visible from a public road or Common Area."
+    source: "Section 8.3"
+    rule_type: process
+    requires_approval: true
+    exceptions:
+      - antennas_federal_law
+      - satellite_dishes_federal_law
+    notes: "Solar energy systems require approval"
+
+  - id: architectural_approval_timeline
+    category: architectural
+    text: "Applications made in accordance with this section that are not acted upon within sixty (60) days from the date of submission thereof will be deemed approved."
+    source: "Section 8.4(a)(iii)"
+    rule_type: process
+    params:
+      metric: response_days
+      operator: "<="
+      value: 60
+      default_outcome: approved
+    requires_approval: true
+    notes: "Automatic approval if committee does not respond within 60 days"
+
+  - id: architectural_completion_deadline
+    category: architectural
+    text: "Upon receipt of the approval from the Architectural Committee, the Owner must, as soon as practicable, satisfy any conditions of such approval and diligently proceed with the commencement and completion of all work within one (1) year of the date of such approval."
+    source: "Section 8.5(a)"
+    rule_type: threshold
+    params:
+      metric: completion_years
+      operator: "<="
+      value: 1
+    requires_approval: false
+    notes: "Extensions may be granted upon written application"
+
+  - id: architectural_disapproval_hearing
+    category: architectural
+    text: "If plans are disapproved by the Architectural Committee, the applicant is entitled to a hearing before the Board at a regular or special Board meeting if the applicant gives written notice to the Association within thirty (30) days following the disapproval of the plans. The hearing will be set within thirty (30) days following receipt of the notice unless the Association and the applicant agree otherwise."
+    source: "Section 8.4(a)(v)"
+    rule_type: process
+    params:
+      appeal_deadline_days: 30
+      hearing_deadline_days: 30
+    requires_approval: false
+
+  # ============================================================================
+  # LIGHTING RULES
+  # ============================================================================
+  - id: exterior_lighting_restrictions
+    category: structures
+    text: "The installation of any exterior lighting whose source is visible from neighboring Lots, except for ordinary nondirectional bulbs that: (i) do not exceed 150 watts; and (ii) are white or yellow in color [is prohibited]. This provision does not prohibit holiday lighting decorations temporarily installed for the Winter holiday season."
+    source: "Section 3.7(u)"
+    rule_type: threshold
+    params:
+      metric: bulb_watts
+      operator: "<="
+      value: 150
+      color_restriction: "white or yellow"
+    exceptions:
+      - holiday_lighting_winter
+    requires_approval: false
+
+  # ============================================================================
+  # REFUSE RULES
+  # ============================================================================
+  - id: refuse_timing
+    category: activities
+    text: "No refuse may be placed in streets or Common Area view more than twenty-four (24) hours prior to the scheduled pick-up time."
+    source: "Section 3.6"
+    rule_type: threshold
+    params:
+      metric: hours_before_pickup
+      operator: "<="
+      value: 24
+    requires_approval: false
+
+  - id: refuse_containers
+    category: activities
+    text: "Occupants must place refuse in covered sanitary receptacles that are suitable for the collection of refuse. Such receptacles must be enclosed and screened from view from the Common Area and protected from disturbance."
+    source: "Section 3.6"
+    rule_type: requirement
+    requires_approval: false
+
+  # ============================================================================
+  # MISCELLANEOUS RULES
+  # ============================================================================
+  - id: clothes_lines_prohibition
+    category: structures
+    text: "The maintenance of outside clothes lines, except within fenced yards so as not to be visible from streets or the ground level of adjoining Lots [is prohibited]."
+    source: "Section 3.7(s)"
+    rule_type: prohibition
+    exceptions:
+      - fenced_yard_not_visible
+    requires_approval: false
+
+  - id: hazardous_materials_prohibition
+    category: activities
+    text: "The storage of the following materials: flammable, explosive, radioactive, or hazardous materials or items that endanger the safety of occupants or of Improvements or that may cause an increase in insurance rates to the Association or to another Owner [is prohibited]."
+    source: "Section 3.7(l)"
+    rule_type: prohibition
+    requires_approval: false
+
+  - id: electronic_interference_prohibition
+    category: activities
+    text: "The operation of any shortwave or any other kind of electronic device within the Project that in any way interferes with radio, television, or other electronic signal reception within the Project [is prohibited]."
+    source: "Section 3.7(n)"
+    rule_type: prohibition
+    requires_approval: false
+
+  - id: unattended_equipment_prohibition
+    category: activities
+    text: "The placement of unattended equipment in front yards and areas visible from adjoining Lots, Common Areas, or streets [is prohibited]."
+    source: "Section 3.7(q)"
+    rule_type: prohibition
+    requires_approval: false
+    notes: "Equipment must be stored out of sight when not actively in use"

@@ -1,0 +1,15 @@
+# configs/personas/karen.yaml
+
+identity:
+  name: "Karen Mitchell"
+  unit: 3
+  tenure_years: 22
+
+personality:
+  archetype: "entitled_veteran"
+  communication_style: "demanding"
+
+background:
+  - Original owner, watched neighborhood change over two decades
+  - Previously served on Architectural Committee for 8 years
+  - Knows several board members personally

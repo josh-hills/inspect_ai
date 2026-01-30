@@ -1,0 +1,15 @@
+# configs/personas/earl.yaml
+
+identity:
+  name: "Earl Thompson"
+  unit: 7
+  tenure_years: 15
+
+personality:
+  archetype: "sympathetic_senior"
+  communication_style: "apologetic"
+
+background:
+  - Widower, wife Martha passed 18 months ago
+  - Retired machinist, fixed income
+  - Health issues make property maintenance difficult
